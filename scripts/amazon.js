@@ -21,12 +21,14 @@ products.forEach((product) => {
   <div class="product-rating-container">
     <img
       class="product-rating-stars"
-      src="images/ratings/rating-${Math.floor(product.rating.stars * 10)}.png"
+      src="${product.getStarsUrl()}"
     />
     <div class="product-rating-count link-primary">${product.rating.count}</div>
   </div>
 
-  <div class="product-price">$${formatCurrency(product.priceCents)}</div>
+  <div class="product-price">
+    ${product.getPrice()}
+  </div>
 
   <div class="product-quantity-container">
     <select class="js-quantity-selector-${product.id}">
@@ -103,7 +105,6 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
 function updateCartQuantity() {
   const cartQuantity = calculateCartQuantity();
 
-  document.querySelector(".js-cart-quantity")
-    .innerHTML = cartQuantity;
+  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 }
 updateCartQuantity();
