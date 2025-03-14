@@ -1,11 +1,14 @@
 import { cart } from "../data/cart-class.js";
-import { products } from "../data/products.js";
+import { products, loadProducts } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
-let productsHTML = "";
+loadProducts(renderProductsGrid);
 
-products.forEach((product) => {
-  productsHTML += `
+function renderProductsGrid() {
+  let productsHTML = "";
+
+  products.forEach((product) => {
+    productsHTML += `
   <div class="product-container">
   <div class="product-image-container">
     <img
@@ -64,49 +67,50 @@ products.forEach((product) => {
 </div>
 
   `;
-});
+  });
 
-document.querySelector(".js-products-grid").innerHTML = productsHTML;
+  document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
-// const addedMessageTimeouts = {};
+  // const addedMessageTimeouts = {};
 
-document.querySelectorAll(".js-add-to-cart").forEach((button) => {
-  let addedMessageTimeoutId;
+  document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+    let addedMessageTimeoutId;
 
-  button.addEventListener("click", () => {
-    const { productId } = button.dataset;
+    button.addEventListener("click", () => {
+      const { productId } = button.dataset;
 
-    const quantitySelector = document.querySelector(
-      `.js-quantity-selector-${productId}`
-    );
-    const quantity = Number(quantitySelector.value);
-    cart.addToCart(productId, quantity);
-    updateCartQuantity();
-    const addedMessage = document.querySelector(
-      `.js-added-to-cart-${productId}`
-    );
+      const quantitySelector = document.querySelector(
+        `.js-quantity-selector-${productId}`
+      );
+      const quantity = Number(quantitySelector.value);
+      cart.addToCart(productId, quantity);
+      updateCartQuantity();
+      const addedMessage = document.querySelector(
+        `.js-added-to-cart-${productId}`
+      );
 
-    addedMessage.classList.add("show");
+      addedMessage.classList.add("show");
 
-    setTimeout(() => {
-      // Check if a previous timeoutId exists. If it does,
-      // we will stop it.
-      if (addedMessageTimeoutId) {
-        clearTimeout(addedMessageTimeoutId);
-      }
+      setTimeout(() => {
+        // Check if a previous timeoutId exists. If it does,
+        // we will stop it.
+        if (addedMessageTimeoutId) {
+          clearTimeout(addedMessageTimeoutId);
+        }
 
-      const timeoutId = setTimeout(() => {
-        addedMessage.classList.remove("show");
-      }, 2000);
+        const timeoutId = setTimeout(() => {
+          addedMessage.classList.remove("show");
+        }, 2000);
 
-      // Save the timeoutId so we can stop it later.
-      addedMessageTimeoutId = timeoutId;
+        // Save the timeoutId so we can stop it later.
+        addedMessageTimeoutId = timeoutId;
+      });
     });
   });
-});
-function updateCartQuantity() {
-  const cartQuantity = cart.calculateCartQuantity();
+  function updateCartQuantity() {
+    const cartQuantity = cart.calculateCartQuantity();
 
-  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+    document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+  }
+  updateCartQuantity();
 }
-updateCartQuantity();
