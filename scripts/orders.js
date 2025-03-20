@@ -61,7 +61,7 @@ async function loadPage() {
           </div>
           <button class="buy-again-button button-primary js-buy-again"
           data-product-id="${product.id}">
-            <img class="buy-again-icon" src="images/icons/buy-again.png">
+            <img class="buy-again-icon" src="./images/icons/buy-again.png">
             <span class="buy-again-message">Buy it again</span>
           </button>
         </div>
@@ -89,7 +89,7 @@ async function loadPage() {
       button.innerHTML = "Added";
       setTimeout(() => {
         button.innerHTML = `
-          <img class="buy-again-icon" src="images/icons/buy-again.png">
+          <img class="buy-again-icon" src="./images/icons/buy-again.png">
           <span class="buy-again-message">Buy it again</span>
         `;
       }, 1000);
